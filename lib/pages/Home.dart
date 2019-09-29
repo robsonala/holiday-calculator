@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:holiday2/pages/Create.dart';
 import 'package:holiday2/ui/drawer.dart';
 
 class HomePage extends StatelessWidget {
@@ -12,36 +13,41 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text(title)),
-        drawer: buildDrawer(context, route),
-        body: ListView.builder(
-          // Let the ListView know how many items it needs to build.
-          itemCount: items.length,
-          // Provide a builder function. This is where the magic happens.
-          // Convert each item into a widget based on the type of item it is.
-          itemBuilder: (context, index) {
-            final item = items[index];
+      appBar: AppBar(title: Text(title)),
+      drawer: buildDrawer(context, route),
+      body: SafeArea(
+        top: false,
+          child: ListView.builder(
+        // Let the ListView know how many items it needs to build.
+        itemCount: items.length,
+        // Provide a builder function. This is where the magic happens.
+        // Convert each item into a widget based on the type of item it is.
+        itemBuilder: (context, index) {
+          final item = items[index];
 
-            if (item is HeadingItem) {
-              return ListTile(
-                title: Text(
-                  item.heading,
-                  style: Theme.of(context).textTheme.headline,
-                ),
-              );
-            } else if (item is MessageItem) {
-              return ListTile(
-                title: Text(item.title),
-                subtitle: Text(item.dateFrom.toString() + ' - ' + item.dateTo.toString()),
-              );
-            }
-          },
-        ),
+          if (item is HeadingItem) {
+            return ListTile(
+              title: Text(
+                item.heading,
+                style: Theme.of(context).textTheme.headline,
+              ),
+            );
+          } else if (item is MessageItem) {
+            return ListTile(
+              title: Text(item.title),
+              subtitle: Text(
+                  item.dateFrom.toString() + ' - ' + item.dateTo.toString()),
+            );
+          }
+        },
+      )),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           FloatingActionButton(
-//            onPressed: counter.decrement,
+            onPressed: () {
+              Navigator.pushReplacementNamed(context, CreatePage.route);
+            },
             tooltip: 'Add',
             child: Icon(Icons.add),
           )

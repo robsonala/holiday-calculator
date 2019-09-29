@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:holiday2/pages/Create.dart';
 import 'package:holiday2/pages/Home.dart';
-import 'package:holiday2/ui/drawer.dart';
 
 void main() => runApp(MyApp(year: 2019));
 
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       routes: <String, WidgetBuilder>{
-      //  SettingsPage.route: (context) => SettingsPage(),
+        CreatePage.route: (context) => CreatePage(),
       },
     );
   }
