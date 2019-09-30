@@ -19,7 +19,6 @@ class CreatePage extends StatelessWidget {
   }
 }
 
-// Create a Form widget.
 class CreateForm extends StatefulWidget {
   @override
   CreateFormState createState() {
@@ -27,18 +26,55 @@ class CreateForm extends StatefulWidget {
   }
 }
 
-// Create a corresponding State class.
-// This class holds data related to the form.
 class CreateFormState extends State<CreateForm> {
-  TextEditingController _controller = TextEditingController(text: 'ddd');
-  DateTime dateTimeFrom = DateTime.now();
-  DateTime dateTimeTo = DateTime.now();
+  TextEditingController _controllerTitle = TextEditingController(text: 'ddd');
+  final ValueNotifier<DateTime> _controllerFrom = ValueNotifier(DateTime.now());  
+  final ValueNotifier<DateTime> _controllerTo = ValueNotifier(DateTime.now());  
 
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
-    _controller.dispose();
+    _controllerTitle.dispose();
+    _controllerFrom.dispose();
+    _controllerTo.dispose();
+
     super.dispose();
+  }
+
+  Widget _buildTitleField(BuildContext context) {
+    return ListTile(
+      leading: const Icon(Icons.create),
+      title: new TextField(
+        controller: _controllerTitle,
+        decoration: new InputDecoration(
+          hintText: "Title",
+        ),
+      ),
+    );
+  }
+
+  Widget _buidDate(BuildContext context, ValueNotifier _controller) {
+    return ListTile(
+        leading: const Icon(Icons.today),
+        title: const Text('Date From'),
+        subtitle: Text(DateHelper.dateHourFormat(_controller.value)),
+        onTap: () {
+          showCupertinoModalPopup<void>(
+            context: context,
+            builder: (BuildContext context) {
+              return new DatePickerModal(
+                  widget: new CupertinoDatePicker(
+                mode: CupertinoDatePickerMode.dateAndTime,
+                initialDateTime: _controller.value,
+                onDateTimeChanged: (DateTime newDateTime) {
+                  if (mounted) {
+                    setState(() => _controller.value = newDateTime);
+                  }
+                },
+              ));
+            },
+          );
+        });
   }
 
   @override
@@ -48,62 +84,17 @@ class CreateFormState extends State<CreateForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          new ListTile(
-            leading: const Icon(Icons.create),
-            title: new TextField(
-              controller: _controller,
-              decoration: new InputDecoration(
-                hintText: "Title",
-              ),
-            ),
-          ),
-          new ListTile(
-              leading: const Icon(Icons.today),
-              title: const Text('Date From'),
-              subtitle: Text(DateHelper.dateHourFormat(dateTimeFrom)),
-              onTap: () {
-                showCupertinoModalPopup<void>(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return new DatePickerModal(
-                        widget: new CupertinoDatePicker(
-                      mode: CupertinoDatePickerMode.dateAndTime,
-                      initialDateTime: dateTimeFrom,
-                      onDateTimeChanged: (DateTime newDateTime) {
-                        if (mounted) {
-                          setState(() => dateTimeFrom = newDateTime);
-                        }
-                      },
-                    ));
-                  },
-                );
-              }),
-          new ListTile(
-              leading: const Icon(Icons.today),
-              title: const Text('Date To'),
-              subtitle: Text(DateHelper.dateHourFormat(dateTimeTo)),
-              onTap: () {
-                showCupertinoModalPopup<void>(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return new DatePickerModal(
-                        widget: new CupertinoDatePicker(
-                      mode: CupertinoDatePickerMode.dateAndTime,
-                      initialDateTime: dateTimeTo,
-                      onDateTimeChanged: (DateTime newDateTime) {
-                        if (mounted) {
-                          setState(() => dateTimeTo = newDateTime);
-                        }
-                      },
-                    ));
-                  },
-                );
-              }),
+          _buildTitleField(context),
+          _buidDate(context, _controllerFrom),
+          _buidDate(context, _controllerTo),
+
           Align(
             alignment: AlignmentDirectional.center,
             child: RaisedButton(
               onPressed: () {
-                String title = _controller.text.toString();
+                String title = _controllerTitle.text.toString();
+                String dateTimeFrom = _controllerFrom.value.toString();
+                String dateTimeTo = _controllerTo.value.toString();
 
                 Timer.run(() {
                   showDialog(

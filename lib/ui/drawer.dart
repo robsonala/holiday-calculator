@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:holiday2/pages/Home.dart';
+import 'package:holiday2/pages/Settings.dart';
 
 Drawer buildDrawer(BuildContext context, String currentRoute) {
   return Drawer(
@@ -25,7 +26,16 @@ Drawer buildDrawer(BuildContext context, String currentRoute) {
           onTap: () {
             Navigator.pushReplacementNamed(context, HomePage.route);
           },
-        )
+        ),
+
+        ListTile(
+          title: const Text('Settings'),
+          selected: currentRoute == SettingsPage.route,
+          onTap: () {
+            Navigator.pushReplacementNamed(context, SettingsPage.route);
+          },
+        ),
+
       ],
     ),
   );
