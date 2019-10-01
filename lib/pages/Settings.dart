@@ -48,7 +48,7 @@ class CreateFormState extends State<CreateForm> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Number of days of holiday'),
+            Text('Holidays per year (days)'),
             SizedBox(
               width: 50,
                 child: new TextField(

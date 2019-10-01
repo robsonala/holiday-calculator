@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:holiday2/pages/Create.dart';
 import 'package:holiday2/pages/Home.dart';
 import 'package:holiday2/pages/Settings.dart';
-import 'package:holiday2/pages/Test.dart';
 
 void main() => runApp(MyApp(year: 2019));
 
