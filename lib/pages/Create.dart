@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:holiday2/helpers/Date.dart';
+import 'package:holiday2/models/ItemModel.dart';
 import 'package:holiday2/pages/Home.dart';
+import 'package:holiday2/providers/ItemProvider.dart';
 import 'package:holiday2/ui/DatePickerModal.dart';
 import 'package:holiday2/ui/drawer.dart';
 
@@ -27,7 +29,7 @@ class CreateForm extends StatefulWidget {
 }
 
 class CreateFormState extends State<CreateForm> {
-  TextEditingController _controllerTitle = TextEditingController(text: 'ddd');
+  TextEditingController _controllerTitle = TextEditingController(text: '');
   final ValueNotifier<DateTime> _controllerFrom = ValueNotifier(DateTime.now());  
   final ValueNotifier<DateTime> _controllerTo = ValueNotifier(DateTime.now());  
 
@@ -96,16 +98,21 @@ class CreateFormState extends State<CreateForm> {
                 String dateTimeFrom = _controllerFrom.value.toString();
                 String dateTimeTo = _controllerTo.value.toString();
 
+                var model = new ItemModel(
+                  title,
+                  DateTime.parse(dateTimeFrom).millisecondsSinceEpoch,
+                  DateTime.parse(dateTimeTo).millisecondsSinceEpoch
+                );
+
+                var provider = new ItemProvider();
+                provider.insert(model);
+
                 Timer.run(() {
                   showDialog(
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
-                          content: Text("""
-Title: $title\n
-Date From: $dateTimeFrom\n
-Date To: $dateTimeTo\n
-                        """),
+                          content: Text("Item $title created successfully!"),
                         );
                       });
                 });

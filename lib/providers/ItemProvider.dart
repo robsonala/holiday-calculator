@@ -13,8 +13,10 @@ class ItemProvider {
     return item;
   }
 
-  Future<List<Map<String, dynamic>>> all() async {
-    return await (await getInstance()).query(ItemModel_table);
+  Future<List> all() async {
+    var result = await (await getInstance()).query(ItemModel_table);
+    
+    return result.toList();
   }
 
 }

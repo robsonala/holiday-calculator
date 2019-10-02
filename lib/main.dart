@@ -15,15 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: appTitle,
-      home: HomePage(
-        title: appTitle,
-        items: List<ListItem>.generate(
-          100,
-          (i) => i % 10 == 0
-              ? HeadingItem((year--).toString())
-              : MessageItem("Lorem Ipsum $i", new DateTime(year), new DateTime(year)),
-        ),
-      ),
+      home: HomePage(),
       routes: <String, WidgetBuilder>{
         CreatePage.route: (context) => CreatePage(),
         SettingsPage.route: (context) => SettingsPage(),

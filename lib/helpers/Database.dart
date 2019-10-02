@@ -6,17 +6,6 @@ class DatabaseHelper {
   static final _name = "holiday2.db";
   static final _version = 1;
 
-
-  /*static final DatabaseHelper _singleton = new DatabaseHelper._internal();
-
-  factory DatabaseHelper() {
-    return _singleton;
-  }
-
-  DatabaseHelper._internal() {
-    // constructor
-  }*/
-
   DatabaseHelper._privateConstructor();
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
 
@@ -41,7 +30,7 @@ class DatabaseHelper {
                 $ItemModel_column_title TEXT NOT NULL,
                 $ItemModel_column_dateFrom TIMESTAMP NOT NULL,
                 $ItemModel_column_dateTo TIMESTAMP NOT NULL
-              )
+              );
               ''');
   }
 }

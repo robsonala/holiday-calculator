@@ -10,7 +10,7 @@ class ItemModel {
   int dateFrom;
   int dateTo;
 
-  ItemModel();
+  ItemModel(this.title, this.dateFrom, this.dateTo);
 
   // convenience constructor to create a Word object
   ItemModel.fromMap(Map<String, dynamic> map) {
