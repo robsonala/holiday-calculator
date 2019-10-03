@@ -83,7 +83,7 @@ class HomeBodyState extends State<HomeBody> {
   Widget build(BuildContext context) {
     return SafeArea(
       top: false,
-      child: ListView.builder(
+      child: items.isEmpty ? Center(child: Text('No data found')) : ListView.builder(
           itemCount: items.length,
           padding: const EdgeInsets.all(15.0),
           itemBuilder: (context, position) {

@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:holiday2/helpers/Database.dart';
+import 'package:holiday2/models/ItemModel.dart';
+import 'package:holiday2/models/SettingsModel.dart';
 import 'package:holiday2/ui/DatePickerModal.dart';
 import 'package:holiday2/ui/drawer.dart';
 
@@ -50,7 +53,7 @@ class CreateFormState extends State<CreateForm> {
           children: [
             Text('Holidays per year (days)'),
             SizedBox(
-              width: 50,
+                width: 50,
                 child: new TextField(
                     controller: _controllerDays,
                     keyboardType: TextInputType.number))
@@ -101,9 +104,32 @@ class CreateFormState extends State<CreateForm> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(children: <Widget>[
-      _buidDaysPicker(context),
-      _buidCountryPicker(context)
-    ]);
+    return Column(
+      children: <Widget>[
+        _buidDaysPicker(context),
+        _buidCountryPicker(context),
+        Text(''),
+        Divider(
+          color: Colors.black
+        ),
+        Align(
+            alignment: AlignmentDirectional.center,
+            child: RaisedButton(
+              onPressed: () async {
+                var db = await DatabaseHelper.instance.database;
+                db.rawDelete('''
+                  DELETE FROM $ItemModel_table;
+                  DELETE FROM $SettingsModel_table;
+                ''');
+
+                Scaffold.of(context).showSnackBar(
+                    SnackBar(content: Text("App has been cleaned up!")));
+              },
+              child: Text('Reset APP'),
+              color: Colors.red,
+              textColor: Colors.white,
+            ))
+      ],
+    );
   }
 }

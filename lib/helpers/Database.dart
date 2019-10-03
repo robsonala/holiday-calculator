@@ -1,4 +1,5 @@
 import 'package:holiday2/models/ItemModel.dart';
+import 'package:holiday2/models/SettingsModel.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -25,14 +26,19 @@ class DatabaseHelper {
 
   Future _onCreate(Database db, int version) async {
     await db.execute('''
-              DROP TABLE IF EXISTS $ItemModel_table; 
               CREATE TABLE $ItemModel_table (
                 $ItemModel_column_id INTEGER PRIMARY KEY,
                 $ItemModel_column_title TEXT NOT NULL,
                 $ItemModel_column_dateFrom TIMESTAMP NOT NULL,
                 $ItemModel_column_dateTo TIMESTAMP NOT NULL
               );
-              
+
+              CREATE TABLE $SettingsModel_table (
+                $SettingsModel_column_id INTEGER PRIMARY KEY,
+                $SettingsModel_column_key TEXT NOT NULL,
+                $SettingsModel_column_value TEXT NOT NULL
+              );
+              CREATE UNIQUE INDEX idx_$SettingsModel_table\_$SettingsModel_column_key ON $SettingsModel_table ($SettingsModel_column_key);
               ''');
   }
 }
