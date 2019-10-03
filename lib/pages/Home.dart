@@ -13,11 +13,12 @@ class HeadingItem implements ListHolidayItem {
 }
 
 class MessageItem implements ListHolidayItem {
+  final int id;
   final String title;
   final DateTime dateFrom;
   final DateTime dateTo;
 
-  MessageItem(this.title, this.dateFrom, this.dateTo);
+  MessageItem(this.id, this.title, this.dateFrom, this.dateTo);
 }
 
 class HomePage extends StatelessWidget {
@@ -72,7 +73,7 @@ class HomeBodyState extends State<HomeBody> {
             items.add(HeadingItem(lastYear.toString()));
           }
 
-          items.add(MessageItem(model.title, dF, dT));
+          items.add(MessageItem(model.id, model.title, dF, dT));
         });
       });
     });
@@ -87,6 +88,7 @@ class HomeBodyState extends State<HomeBody> {
           padding: const EdgeInsets.all(15.0),
           itemBuilder: (context, position) {
             final item = items[position];
+            ListTile listTile;
 
             if (item is HeadingItem) {
               return ListTile(
@@ -96,11 +98,26 @@ class HomeBodyState extends State<HomeBody> {
                 ),
               );
             } else if (item is MessageItem) {
-              return ListTile(
+              listTile = ListTile(
                 title: Text(item.title),
                 subtitle: Text(
                     item.dateFrom.toString() + ' - ' + item.dateTo.toString()),
               );
+
+              return Dismissible(
+                  //key: Key(position.toString()),
+                  key: Key(item.title + items.length.toString()),
+                  onDismissed: (direction) {
+                    setState(() {
+                      provider.delete(item.id);
+                      items.removeAt(position);
+                    });
+
+                    Scaffold.of(context).showSnackBar(
+                        SnackBar(content: Text(item.title + " has been deleted!")));
+                  },
+                  background: Container(color: Colors.red),
+                  child: listTile);
             }
           }),
     );

@@ -25,12 +25,14 @@ class DatabaseHelper {
 
   Future _onCreate(Database db, int version) async {
     await db.execute('''
+              DROP TABLE IF EXISTS $ItemModel_table; 
               CREATE TABLE $ItemModel_table (
                 $ItemModel_column_id INTEGER PRIMARY KEY,
                 $ItemModel_column_title TEXT NOT NULL,
                 $ItemModel_column_dateFrom TIMESTAMP NOT NULL,
                 $ItemModel_column_dateTo TIMESTAMP NOT NULL
               );
+              
               ''');
   }
 }

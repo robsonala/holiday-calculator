@@ -14,9 +14,13 @@ class ItemProvider {
   }
 
   Future<List> all() async {
-    var result = await (await getInstance()).query(ItemModel_table);
+    var result = await (await getInstance()).query(ItemModel_table, orderBy: '$ItemModel_column_dateFrom DESC');
     
     return result.toList();
+  }
+
+  Future<int> delete(int id) async {
+    return await (await getInstance()).delete(ItemModel_table, where: '$ItemModel_column_id = ?', whereArgs: [id]);
   }
 
 }
