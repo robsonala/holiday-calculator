@@ -32,13 +32,18 @@ class DatabaseHelper {
                 $ItemModel_column_dateFrom TIMESTAMP NOT NULL,
                 $ItemModel_column_dateTo TIMESTAMP NOT NULL
               );
+              ''');
 
+    await db.execute('''
               CREATE TABLE $SettingsModel_table (
-                $SettingsModel_column_id INTEGER PRIMARY KEY,
                 $SettingsModel_column_key TEXT NOT NULL,
                 $SettingsModel_column_value TEXT NOT NULL
               );
-              CREATE UNIQUE INDEX idx_$SettingsModel_table\_$SettingsModel_column_key ON $SettingsModel_table ($SettingsModel_column_key);
+              ''');
+
+    await db.execute('''
+              CREATE UNIQUE INDEX idx_$SettingsModel_table\_$SettingsModel_column_key
+                ON $SettingsModel_table ($SettingsModel_column_key);
               ''');
   }
 }

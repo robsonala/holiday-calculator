@@ -9,27 +9,22 @@ class SettingsProvider {
   }
 
   Future<SettingsModel> insert(SettingsModel item) async {
-    item.id =
-        await (await getInstance()).insert(SettingsModel_table, item.toMap());
+    await (await getInstance()).insert(SettingsModel_table, item.toMap());
     return item;
   }
 
-  Future<SettingsModel> byId(int id) async {
-    List<Map> result = await (await getInstance()).query(SettingsModel_table,
-        where: '$SettingsModel_column_id = ?', whereArgs: [id]);
-
+  Future<SettingsModel> byKey(String key) async {
+    List<Map> result = await (await getInstance()).rawQuery('''
+        SELECT * FROM $SettingsModel_table
+        WHERE $SettingsModel_column_key = '$key'
+      ''');
     return result.length > 0 ? new SettingsModel.fromMap(result.first) : null;
   }
 
   Future<List> all() async {
     var result = await (await getInstance())
-        .query(SettingsModel_table, orderBy: '$SettingsModel_column_id DESC');
+        .query(SettingsModel_table, orderBy: '$SettingsModel_column_key DESC');
 
     return result.toList();
-  }
-
-  Future<int> delete(int id) async {
-    return await (await getInstance()).delete(SettingsModel_table,
-        where: '$SettingsModel_column_id = ?', whereArgs: [id]);
   }
 }
