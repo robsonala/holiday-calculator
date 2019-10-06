@@ -6,7 +6,6 @@ import 'package:holiday2/models/ItemModel.dart';
 import 'package:holiday2/models/SettingsModel.dart';
 import 'package:holiday2/providers/SettingsProvider.dart';
 import 'package:holiday2/ui/DatePickerModal.dart';
-import 'package:holiday2/ui/drawer.dart';
 
 final String SettingsPage_column_country = 'settings_country';
 final String SettingsPage_column_days = 'settings_days';
@@ -19,15 +18,12 @@ const List<String> countries = <String>[
   'Wales'
 ];
 
-class SettingsPage extends StatelessWidget {
+class SettingsTab extends StatelessWidget {
   static const String route = '/settings';
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: Text('Settings')),
-        drawer: buildDrawer(context, route),
-        body: CreateForm());
+    return CreateForm();
   }
 }
 

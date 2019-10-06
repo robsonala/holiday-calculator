@@ -1,25 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:holiday2/pages/Create.dart';
-import 'package:holiday2/pages/Home.dart';
-import 'package:holiday2/pages/Settings.dart';
+import 'package:holiday2/pages/tabs/Tab.dart';
 
-void main() => runApp(MyApp(year: 2019));
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  final appTitle = 'My Holidays';
-  int year;
 
-  MyApp({Key key, this.year}) : super(key: key);
+  MyApp({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: appTitle,
-      home: HomePage(),
+    return new MaterialApp(
       routes: <String, WidgetBuilder>{
-        CreatePage.route: (context) => CreatePage(),
-        SettingsPage.route: (context) => SettingsPage(),
+        TabPage.route: (BuildContext context) => new TabPage(),
+        CreatePage.route: (BuildContext context) => new CreatePage(),
       },
+      initialRoute: TabPage.route,
+      title: 'My Holidays',
+      home: new TabPage(),
     );
   }
 }

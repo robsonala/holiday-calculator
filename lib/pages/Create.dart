@@ -4,10 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:holiday2/helpers/Date.dart';
 import 'package:holiday2/models/ItemModel.dart';
-import 'package:holiday2/pages/Home.dart';
 import 'package:holiday2/providers/ItemProvider.dart';
 import 'package:holiday2/ui/DatePickerModal.dart';
-import 'package:holiday2/ui/drawer.dart';
 
 class CreatePage extends StatelessWidget {
   static const String route = '/create';
@@ -15,8 +13,14 @@ class CreatePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('Create Holiday')),
-        drawer: buildDrawer(context, route),
+        appBar: AppBar(
+            automaticallyImplyLeading: true,
+            title: Text('Create Holiday'),
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () => Navigator.of(context).pop()
+            )),
+        //drawer: buildDrawer(context, route),
         body: CreateForm());
   }
 }
@@ -30,8 +34,8 @@ class CreateForm extends StatefulWidget {
 
 class CreateFormState extends State<CreateForm> {
   TextEditingController _controllerTitle = TextEditingController(text: '');
-  final ValueNotifier<DateTime> _controllerFrom = ValueNotifier(DateTime.now());  
-  final ValueNotifier<DateTime> _controllerTo = ValueNotifier(DateTime.now());  
+  final ValueNotifier<DateTime> _controllerFrom = ValueNotifier(DateTime.now());
+  final ValueNotifier<DateTime> _controllerTo = ValueNotifier(DateTime.now());
 
   @override
   void dispose() {
@@ -89,7 +93,6 @@ class CreateFormState extends State<CreateForm> {
           _buildTitleField(context),
           _buidDate(context, _controllerFrom),
           _buidDate(context, _controllerTo),
-
           Align(
             alignment: AlignmentDirectional.center,
             child: RaisedButton(
@@ -99,10 +102,9 @@ class CreateFormState extends State<CreateForm> {
                 String dateTimeTo = _controllerTo.value.toString();
 
                 var model = new ItemModel(
-                  title,
-                  DateTime.parse(dateTimeFrom).millisecondsSinceEpoch,
-                  DateTime.parse(dateTimeTo).millisecondsSinceEpoch
-                );
+                    title,
+                    DateTime.parse(dateTimeFrom).millisecondsSinceEpoch,
+                    DateTime.parse(dateTimeTo).millisecondsSinceEpoch);
 
                 var provider = new ItemProvider();
                 provider.insert(model);
@@ -117,7 +119,7 @@ class CreateFormState extends State<CreateForm> {
                       });
                 });
 
-                Navigator.pushReplacementNamed(context, HomePage.route);
+                Navigator.of(context).pop();
               },
               child: Text('Submit'),
             ),
